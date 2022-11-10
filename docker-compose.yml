@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    image: "postgres"
+    container_name: "chatty-db"
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - chatty-net
+    ports:
+      - '5432:5432'
+    env_file: .env
+
+  cache:
+    image: "redis"
+    container_name: "chatty-cache"
+    restart: "on-failure"
+    networks:
+      - chatty-net
+    ports:
+      - "6379:6379"
+
+networks:
+  chatty-net:
+
+volumes:
+  pgdata:
+  django-static:
